@@ -7,38 +7,20 @@ from carts.utils import get_user_carts
 from goods.models import Products
 
 
-def cart_add(request, product_slug, user_cart=None):
-    product_id = request.POST.get("product_id")
+def cart_add(request, product_slug):
 
-    product = Products.objects.get(id=product_id)
+    product = Products.objects.get(slug=product_slug)
 
-    if request.user.is_authenticated:
-        carts = Cart.objects.filter(user=request.user, product=product)
-
-        if carts.exists():
-            cart = carts.first()
-            if cart:
-                cart.quantity += 1
-                cart.save()
+    carts = Cart.objects.filter(session_key=request.session.session_key, product=product)
+    if carts.exists():
+        cart = carts.first()
+        if cart:
+            cart.quantity += 1
+            cart.save()
         else:
-            Cart.objects.create(user=request.user, product=product, quantity=1)
-
-    else:
-        carts = Cart.objects.filter(
-            session_key=request.session.session_key, product=product)
-
-        if carts.exists():
-            cart = carts.first()
-            if cart:
-                cart.quantity += 1
-                cart.save()
-        else:
-            Cart.objects.create(
-                session_key=request.session.session_key, product=product, quantity=1)
-
-    add_cart = get_user_carts(request)
-    cart_items_html = render_to_string(
-        "carts/included_cart.html", {"carts": user_cart}, request=request)
+            Cart.objects.create(session_key=request.session.session_key, product=product, quantity=1)
+    user_cart = get_user_carts(request)
+    cart_items_html = render_to_string("carts/included_cart.html", {"carts": user_cart}, request=request)
 
     response_data = {
         "message": "Товар добавлен в корзину",
@@ -48,7 +30,7 @@ def cart_add(request, product_slug, user_cart=None):
     return JsonResponse(response_data)
 
 
-def cart_change(request):
+def cart_change(request, product_slug):
     cart_id = request.POST.get("cart_id")
     quantity = request.POST.get("quantity")
 
@@ -71,7 +53,7 @@ def cart_change(request):
     return JsonResponse(response_data)
 
 
-def cart_remove(request):
+def cart_remove(request, product_slug):
     cart_id = request.POST.get("cart_id")
 
     cart = Cart.objects.get(id=cart_id)

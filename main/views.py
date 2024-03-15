@@ -45,7 +45,8 @@ def contact(request):
     context: dict[str, str] = {
         'title': 'Home - Наши контакты',
         'content': 'Контактная информация',
-        'text_on_page': 'Наши контакты'
+        'text_on_page': 'Наши контакты: Адрес: г.Катайск, Курганская область, ул. Боровая2А    '
+                        ' Номер для связи- 8(938)3454422'
     }
     return render(request, 'main/contact.html', context)
 
@@ -54,7 +55,8 @@ def delivery(request):
     context: dict[str, str] = {
         'title': 'Home - Доставка',
         'content': 'Доставка и Оплата',
-        'text_on_page': 'Текст о нашем классном магазине'
+        'text_on_page': 'Оплата принимается наличными или картой при получении товара. '
+                        'По поводу доставки, с вами свяжеться наш менеджер после оформления заказа.'
     }
     return render(request, 'main/delivery.html', context)
 
