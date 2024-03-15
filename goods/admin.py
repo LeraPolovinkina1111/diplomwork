@@ -8,13 +8,13 @@ from goods.models import Categories, Products
 
 @admin.register(Categories)
 class CategoriesAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("name",)}
+    prepopulated_fields = {"id": ("name",)}
     list_display = ["name", ]
 
 
 @admin.register(Products)
 class ProductsAdmin(admin.ModelAdmin):
-    prepopulated_fields = {"slug": ("name",)}
+    prepopulated_fields = {"id": ("name",)}
     list_display = ["name", "quantity", "price", "discount"]
     list_editable = ["discount", ]
     search_fields = ["name", "description"]
@@ -22,7 +22,7 @@ class ProductsAdmin(admin.ModelAdmin):
     fields = [
         "name",
         "category",
-        "slug",
+        "id",
         "description",
         "image",
         ("price", "discount"),

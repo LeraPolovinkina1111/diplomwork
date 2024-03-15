@@ -1,5 +1,6 @@
 from carts.models import Cart
 
+app_name = 'carts'
 
 def get_user_carts(request):
     if request.user.is_authenticated:

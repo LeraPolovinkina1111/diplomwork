@@ -104,7 +104,7 @@ def bacaleya(request):
 
 
 def product(request, product_slug):
-    product: object = Products.objects.get(slug=product_slug)
+    product: object = Products.objects.get(id=product_id)
 
     context = {"product": product}
 
